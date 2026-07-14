@@ -369,27 +369,91 @@ export function QuizApp() {
         <ResultView record={storedResult} onHome={goHome} />
       )}
 
-      <footer className="site-footer">
-        <div className="creator-strip" aria-label="作者与社交账号">
-          <a href="https://github.com/vigorX777" target="_blank" rel="noreferrer">
-            <small>作者</small><strong>vigorxu</strong><i>↗</i>
-          </a>
-          <span>
-            <small>公众号</small><strong>懂点儿AI</strong>
-          </span>
-          <a href="https://x.com/vigorX777" target="_blank" rel="noreferrer">
-            <small>X</small><strong>@vigorX777</strong><i>↗</i>
-          </a>
-          <a href="https://github.com/vigorX777/mai-bu-mai" target="_blank" rel="noreferrer">
-            <small>GitHub</small><strong>查看源码</strong><i>↗</i>
-          </a>
-        </div>
-        <div className="footer-legal">
-          <span>买不买 · 一把可歌（割）可泣（弃）的韭菜</span>
-          <span>不荐股 · 不预测涨跌 · 不构成投资建议</span>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
+  );
+}
+
+function SiteFooter() {
+  const [wechatHovered, setWechatHovered] = useState(false);
+  const [wechatFocused, setWechatFocused] = useState(false);
+  const [wechatPinned, setWechatPinned] = useState(false);
+  const wechatRef = useRef<HTMLDivElement>(null);
+  const wechatButtonRef = useRef<HTMLButtonElement>(null);
+  const wechatOpen = wechatHovered || wechatFocused || wechatPinned;
+
+  useEffect(() => {
+    if (!wechatPinned) return;
+    const closeOutside = (event: PointerEvent) => {
+      if (!wechatRef.current?.contains(event.target as Node)) setWechatPinned(false);
+    };
+    const closeOnEscape = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setWechatPinned(false);
+      setWechatHovered(false);
+      setWechatFocused(false);
+      wechatButtonRef.current?.focus();
+    };
+    document.addEventListener("pointerdown", closeOutside);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeOutside);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [wechatPinned]);
+
+  return (
+    <footer className="site-footer">
+      <div className="creator-strip" aria-label="作者与社交账号">
+        <a className="creator-item" href="https://github.com/vigorX777" target="_blank" rel="noreferrer">
+          <small>作者</small><strong>vigorxu</strong><i>↗</i>
+        </a>
+        <div
+          className={`wechat-channel ${wechatOpen ? "is-open" : ""}`}
+          ref={wechatRef}
+          onPointerEnter={(event) => event.pointerType === "mouse" && setWechatHovered(true)}
+          onPointerLeave={(event) => event.pointerType === "mouse" && setWechatHovered(false)}
+          onFocusCapture={() => setWechatFocused(true)}
+          onBlurCapture={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) setWechatFocused(false);
+          }}
+        >
+          <button
+            className="creator-item creator-wechat"
+            ref={wechatButtonRef}
+            type="button"
+            aria-expanded={wechatOpen}
+            aria-controls="wechat-qr-popover"
+            onClick={() => setWechatPinned((value) => !value)}
+          >
+            <small>公众号 · 悬浮/点击扫码</small><strong>懂点儿AI</strong><i>⌁</i>
+          </button>
+          <div
+            className="wechat-qr-popover"
+            id="wechat-qr-popover"
+            role="dialog"
+            aria-label="懂点儿AI 公众号二维码"
+            aria-hidden={!wechatOpen}
+          >
+            <span>微信扫码关注</span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/qr/dongdian-ai-wechat.jpg" alt="懂点儿AI 公众号二维码" />
+            <strong>懂点儿AI</strong>
+            <small>聊 AI，也聊怎么不被自己的脑子收割</small>
+          </div>
+        </div>
+        <a className="creator-item" href="https://x.com/vigorX777" target="_blank" rel="noreferrer">
+          <small>X</small><strong>@vigorX777</strong><i>↗</i>
+        </a>
+        <a className="creator-item" href="https://github.com/vigorX777/mai-bu-mai" target="_blank" rel="noreferrer">
+          <small>GitHub</small><strong>查看源码</strong><i>↗</i>
+        </a>
+      </div>
+      <div className="footer-legal">
+        <span>买不买 · 一把可歌（割）可泣（弃）的韭菜</span>
+        <span>不荐股 · 不预测涨跌 · 不构成投资建议</span>
+      </div>
+    </footer>
   );
 }
 
@@ -802,6 +866,13 @@ function ResultCard({
       <div className="card-counter">
         <span>今日反指 · 立刻执行</span>
         <strong>{persona.counter}</strong>
+      </div>
+
+      <div className="card-site-qr" aria-label="扫码打开买不买网站">
+        <span>扫一下，看你是哪茬</span>
+        {/* A same-origin raw image keeps the QR code sharp in the exported PNG. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/qr/mai-bu-mai.png" alt="买不买网站二维码" />
       </div>
 
       <div className="card-footer">

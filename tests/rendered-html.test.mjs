@@ -26,12 +26,14 @@ test("server renders product metadata without starter markers", async () => {
 });
 
 test("finished app keeps the V1 privacy and deployment boundaries in source", async () => {
-  const [app, domain, layout, hosting, packageJson] = await Promise.all([
+  const [app, domain, layout, hosting, packageJson, siteQr, wechatQr] = await Promise.all([
     readFile(new URL("../app/quiz-app.tsx", import.meta.url), "utf8"),
     readFile(new URL("../lib/domain.ts", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../.openai/hosting.json", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
+    readFile(new URL("../public/qr/mai-bu-mai.png", import.meta.url)),
+    readFile(new URL("../public/qr/dongdian-ai-wechat.jpg", import.meta.url)),
   ]);
 
   assert.match(app, /localStorage/);
@@ -42,6 +44,8 @@ test("finished app keeps the V1 privacy and deployment boundaries in source", as
   assert.match(app, /https:\/\/x\.com\/vigorX777/);
   assert.match(app, /https:\/\/github\.com\/vigorX777\/mai-bu-mai/);
   assert.match(app, /懂点儿AI/);
+  assert.match(app, /\/qr\/mai-bu-mai\.png/);
+  assert.match(app, /\/qr\/dongdian-ai-wechat\.jpg/);
   assert.match(app, /不构成投资建议/);
   assert.match(domain, /const question/g);
   assert.match(layout, /lang="zh-CN"/);
@@ -50,4 +54,6 @@ test("finished app keeps the V1 privacy and deployment boundaries in source", as
   assert.equal(hostingConfig.r2, null);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(app, /fetch\(["'`]https?:\/\//);
+  assert.ok(siteQr.byteLength > 1_000);
+  assert.ok(wechatQr.byteLength > 1_000);
 });
