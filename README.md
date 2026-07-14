@@ -6,6 +6,8 @@
 
 作者：[vigorxu](https://github.com/vigorX777) · 公众号：懂点儿AI · X：[@vigorX777](https://x.com/vigorX777)
 
+在线体验：[mai-bu-mai.blockcake3202.chatgpt.site](https://mai-bu-mai.blockcake3202.chatgpt.site)
+
 ## 本地运行
 
 要求 Node.js `>=22.13.0`。

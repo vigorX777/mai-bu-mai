@@ -2,9 +2,13 @@
 
 版本：V1.2（决策入口与可分享结果版）
 
-状态：V1.2 已完成本地开发与验证，待部署确认
+状态：V1.2 已完成开发与验证，已公开部署
 
 最后更新：2026-07-14
+
+线上地址：`https://mai-bu-mai.blockcake3202.chatgpt.site`
+
+GitHub：`https://github.com/vigorX777/mai-bu-mai`
 
 ## 1. 产品定义
 
