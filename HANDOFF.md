@@ -150,6 +150,7 @@
 - 当前自动测试为 15 项全通过，生产构建和 lint 均通过。
 - GitHub 公开仓库已发布：`https://github.com/vigorX777/mai-bu-mai`。
 - Codex Sites V1.2 已公开部署：`https://mai-bu-mai.blockcake3202.chatgpt.site`。
+- Cloudflare Workers V1.2 已部署到个人账户：`https://mai.vigorxu.ac.cn`（Codex Sites 地址保留为备用）。
 
 尚未完成：
 
@@ -181,7 +182,7 @@
 V1.2 已完成开发、验证、GitHub 发布和 Sites 公网部署，不要重新初始化、迁移旧代码或重做视觉方向。后续分两种情况：
 
 1. 用户要求调整 V1：先读取当前代码与本文件，只做明确范围内的最小修改，并重跑相关测试。
-2. 用户要求发布更新：复用 `.openai/hosting.json` 中的 Sites 项目，验证、保存新版本，再部署并走查公网 URL。
+2. 用户要求发布更新：默认执行 `npm test && npm run lint && npm run deploy` 更新 Cloudflare Workers；Codex Sites 仅在用户明确要求时更新。
 
 任何情况下都保持首版最小范围，不增加行情、AI 文案、排行榜、登录或其他未确认能力。
 

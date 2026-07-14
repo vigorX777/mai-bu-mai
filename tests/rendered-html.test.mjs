@@ -45,7 +45,9 @@ test("finished app keeps the V1 privacy and deployment boundaries in source", as
   assert.match(app, /不构成投资建议/);
   assert.match(domain, /const question/g);
   assert.match(layout, /lang="zh-CN"/);
-  assert.deepEqual(JSON.parse(hosting), { d1: null, r2: null });
+  const hostingConfig = JSON.parse(hosting);
+  assert.equal(hostingConfig.d1, null);
+  assert.equal(hostingConfig.r2, null);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotMatch(app, /fetch\(["'`]https?:\/\//);
 });

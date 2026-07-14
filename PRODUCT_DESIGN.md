@@ -6,7 +6,9 @@
 
 最后更新：2026-07-14
 
-线上地址：`https://mai-bu-mai.blockcake3202.chatgpt.site`
+线上地址：`https://mai.vigorxu.ac.cn`
+
+备用地址：`https://mai-bu-mai.blockcake3202.chatgpt.site`
 
 GitHub：`https://github.com/vigorX777/mai-bu-mai`
 
